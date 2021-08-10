@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kovid.databinding.ActivityMainBinding
@@ -15,8 +16,12 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-
     var facList = arrayListOf<List_item>()
+    var adress_list = arrayListOf<String>()
+    var zipcode_list = arrayListOf<String>()
+    var facname_list = arrayListOf<String>()
+    var number_list = arrayListOf<String>()
+
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,10 +87,14 @@ class MainActivity : AppCompatActivity() {
                 for(i in 0 until 10){
                     var obj = data.getJSONObject(i)
 
-//                    var address: String = obj.getString("address")
-//                    var zipCode: String = obj2.getString("zipCode")
+                    var address: String = obj.getString("address")
+                    var zipCode: String = obj.getString("zipCode")
                     var facilityName: String = obj.getString("facilityName")
-//                    var phoneNumber: String = obj.getString("phoneNumber")
+                    var phoneNumber: String = obj.getString("phoneNumber")
+                    adress_list.add(address)
+                    zipcode_list.add(zipCode)
+                    facname_list.add(facilityName)
+                    number_list.add(phoneNumber)
 
                     // 화면에 출력
                     runOnUiThread {
@@ -94,6 +103,7 @@ class MainActivity : AppCompatActivity() {
 //                        binding.textView.append("우편번호 : ${zipCode}\n")
 //                        binding.textView.append("전화번호 : ${phoneNumber}\n")
                     }
+//                    Log.d("LogObj", adress_list.toString() + zipcode_list)
                 }
             }
         }
