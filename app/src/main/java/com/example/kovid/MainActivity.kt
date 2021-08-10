@@ -1,7 +1,9 @@
 package com.example.kovid
 
+import android.R
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +21,8 @@ class MainActivity : AppCompatActivity() {
     var zipcode_list = arrayListOf<String>()
     var facname_list = arrayListOf<String>()
     var number_list = arrayListOf<String>()
-    val list = arrayListOf(facname_list)
+    val list = (facname_list)
 
-    var RecyclerView: RecyclerView? = null
     var LayoutManager: RecyclerView.LayoutManager? = null
 
 
@@ -32,21 +33,20 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-//        val facAdapter = ListViewAdapter(this, facname_list)
-//        binding.listView.adapter = facAdapter
+        // 쓰레드 생성
+        val thread = NetworkThread()
+        thread.start()
 
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
-            // 쓰레드 생성
-            val thread = NetworkThread()
-            thread.start()
-        }
+            LayoutManager = LinearLayoutManager(this)
+            binding.recyclerView.layoutManager = LayoutManager
 
-//        binding.listView
-//        binding.textView.setOnClickListener {
-//            val Intent = Intent(this, DetailActivity::class.java)
-//            startActivity(Intent)
-//        }
+            val adapter = RecyclerAdapter(list)
+            Log.d("TQ", list.toString())
+            Log.d("TQ", facname_list.toString())
+            binding.recyclerView.adapter = adapter
+        }
     }
 
     // 네트워크를 이용할 때는 쓰레드를 사용해서 접근해야 함
@@ -100,19 +100,12 @@ class MainActivity : AppCompatActivity() {
                     number_list.add(phoneNumber)
 
 //                    // 화면에 출력
-                    runOnUiThread {
-
-                        LayoutManager = LinearLayoutManager(this@MainActivity);
-                        RecyclerView?.setLayoutManager(LayoutManager);
-
-                        val adapter = RecyclerAdapter(list)
-                        Log.d("TQ", list.toString())
-                        binding.recyclerView.adapter = adapter
+//                    runOnUiThread {
 //                        binding.textView.append("이름 : ${facilityName}\n")
 //                        binding.textView.append("주소 : ${address}\n")
 //                        binding.textView.append("우편번호 : ${zipCode}\n")
 //                        binding.textView.append("전화번호 : ${phoneNumber}\n")
-                    }
+//                    }
 //                    Log.d("LogObj", adress_list.toString() + zipcode_list)
                 }
             }

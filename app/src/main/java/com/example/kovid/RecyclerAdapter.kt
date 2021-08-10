@@ -13,7 +13,7 @@ import java.lang.reflect.Member
  * @created 2021-08-10
  * @desc
  */
-class RecyclerAdapter(private var items: ArrayList<ArrayList<String>>) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
+class RecyclerAdapter(private var items: ArrayList<String>) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
     var listData = mutableListOf<Member>()
 
