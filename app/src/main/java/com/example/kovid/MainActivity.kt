@@ -1,12 +1,10 @@
 package com.example.kovid
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kovid.databinding.ActivityMainBinding
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -16,11 +14,15 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    var facList = arrayListOf<List_item>()
+//    var facList = arrayListOf<List_item>()
     var adress_list = arrayListOf<String>()
     var zipcode_list = arrayListOf<String>()
     var facname_list = arrayListOf<String>()
     var number_list = arrayListOf<String>()
+    val list = arrayListOf(facname_list)
+
+    var RecyclerView: RecyclerView? = null
+    var LayoutManager: RecyclerView.LayoutManager? = null
 
 
     private lateinit var binding: ActivityMainBinding
@@ -30,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val facAdapter = ListViewAdapter(this, facList)
-        binding.listView.adapter = facAdapter
+//        val facAdapter = ListViewAdapter(this, facname_list)
+//        binding.listView.adapter = facAdapter
 
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
@@ -40,10 +42,11 @@ class MainActivity : AppCompatActivity() {
             thread.start()
         }
 
-        binding.textView.setOnClickListener {
-            val Intent = Intent(this, DetailActivity::class.java)
-            startActivity(Intent)
-        }
+//        binding.listView
+//        binding.textView.setOnClickListener {
+//            val Intent = Intent(this, DetailActivity::class.java)
+//            startActivity(Intent)
+//        }
     }
 
     // 네트워크를 이용할 때는 쓰레드를 사용해서 접근해야 함
@@ -96,9 +99,16 @@ class MainActivity : AppCompatActivity() {
                     facname_list.add(facilityName)
                     number_list.add(phoneNumber)
 
-                    // 화면에 출력
+//                    // 화면에 출력
                     runOnUiThread {
-                        binding.textView.append("이름 : ${facilityName}\n")
+
+                        LayoutManager = LinearLayoutManager(this@MainActivity);
+                        RecyclerView?.setLayoutManager(LayoutManager);
+
+                        val adapter = RecyclerAdapter(list)
+                        Log.d("TQ", list.toString())
+                        binding.recyclerView.adapter = adapter
+//                        binding.textView.append("이름 : ${facilityName}\n")
 //                        binding.textView.append("주소 : ${address}\n")
 //                        binding.textView.append("우편번호 : ${zipCode}\n")
 //                        binding.textView.append("전화번호 : ${phoneNumber}\n")
