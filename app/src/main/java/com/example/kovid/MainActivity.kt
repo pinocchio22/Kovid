@@ -21,9 +21,8 @@ class MainActivity : AppCompatActivity() {
     var zipcode_list = arrayListOf<String>()
     var facname_list = arrayListOf<String>()
     var number_list = arrayListOf<String>()
-    val list = (facname_list)
 
-    var LayoutManager: RecyclerView.LayoutManager? = null
+    val LayoutManager  = LinearLayoutManager(this)
 
 
     private lateinit var binding: ActivityMainBinding
@@ -33,19 +32,26 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val list = ArrayList<String>(facname_list.size)
+        list.add("gg")
+//        if (!list.isEmpty()){
+//            list.add(facname_list[0])
+//        }
+
         // 쓰레드 생성
         val thread = NetworkThread()
         thread.start()
 
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
-            LayoutManager = LinearLayoutManager(this)
-            binding.recyclerView.layoutManager = LayoutManager
 
-            val adapter = RecyclerAdapter(list)
-            Log.d("TQ", list.toString())
             Log.d("TQ", facname_list.toString())
+            Log.d("후", list.toString())
+
+            binding.recyclerView.layoutManager = LayoutManager
+            val adapter = RecyclerAdapter(list)
             binding.recyclerView.adapter = adapter
+
         }
     }
 
@@ -87,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                 var data = root.getJSONArray("data")
 //                Log.d("data?", data.toString())
                 // 리스트에 있는 데이터를 totalCount 만큼 가져옴
-                for(i in 0 until 10){
+                for(i in 0..data.length()-1){
                     var obj = data.getJSONObject(i)
 
                     var address: String = obj.getString("address")
