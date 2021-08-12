@@ -32,8 +32,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val list = ArrayList<String>(facname_list.size)
-        list.add("gg")
+//        val list = ArrayList<FacnameList>(facname_list.size)
+//        for (i in 0..list.size) {
+//            list.add(FacnameList("$i" + "번째"))
+//        }
 //        if (!list.isEmpty()){
 //            list.add(facname_list[0])
 //        }
@@ -46,10 +48,10 @@ class MainActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
 
             Log.d("TQ", facname_list.toString())
-            Log.d("후", list.toString())
+//            Log.d("후", list.size.toString())
 
             binding.recyclerView.layoutManager = LayoutManager
-            val adapter = RecyclerAdapter(list)
+            val adapter = RecyclerAdapter(facname_list)
             binding.recyclerView.adapter = adapter
 
         }

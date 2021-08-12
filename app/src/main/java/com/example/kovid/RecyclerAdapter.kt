@@ -1,5 +1,6 @@
 package com.example.kovid
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,7 @@ import java.lang.reflect.Member
 //    }
 //}
 //
-class RecyclerAdapter(private val items: ArrayList<FacnameList>) :
+class RecyclerAdapter( private val items: ArrayList<String>) :
         RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     //RecyclerView 초기화때 호출된다.
@@ -63,11 +64,11 @@ class RecyclerAdapter(private val items: ArrayList<FacnameList>) :
     //생성된 View에 보여줄 데이터를 설정
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //클릭 리스너 설정
-        val listener = View.OnClickListener {it ->
-            Toast.makeText(it.context, items[position].name, Toast.LENGTH_SHORT).show()
-        }
+//        val listener = View.OnClickListener {it ->
+//            Toast.makeText(it.context, items[position].name, Toast.LENGTH_SHORT).show()
+//        }
         //
-        holder.bind(listener, items[position])
+        holder.name.text = items[position]
 
     }
 
@@ -78,7 +79,7 @@ class RecyclerAdapter(private val items: ArrayList<FacnameList>) :
     //ViewHolder 단위 객체로 View의 데이터를 설정합니다
     class ViewHolder(private var v: View) : RecyclerView.ViewHolder(v){
 
-        private val name : TextView = itemView.findViewById(R.id.name)
+        val name : TextView = itemView.findViewById(R.id.name)
 
         fun bind(listener: View.OnClickListener, item: FacnameList){
             v.setOnClickListener(listener)
