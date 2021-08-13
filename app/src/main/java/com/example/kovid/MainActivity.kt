@@ -166,6 +166,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         spinner1.setAdapter(arrayAdapter)
+        spinner1.setSelection(0)
         spinner1.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
                 Toast.makeText(applicationContext, sido_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
@@ -183,6 +184,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         spinner2.setAdapter(arrayAdapter)
+        spinner2.setSelection(0)
         spinner2.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
                 Toast.makeText(applicationContext, sigungu_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
