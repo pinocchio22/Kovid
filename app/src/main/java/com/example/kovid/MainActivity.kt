@@ -1,10 +1,16 @@
 package com.example.kovid
 
+import android.R
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kovid.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -62,6 +68,10 @@ class MainActivity : AppCompatActivity() {
         // 쓰레드 생성
         val thread = NetworkThread()
         thread.start()
+
+        // 스피너 실행
+        setSpinner1()
+        setSpinner2()
 
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
@@ -145,5 +155,41 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    // Spinner
+
+    //스피너 셋팅1
+    fun setSpinner1() {
+
+        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sido_list
+        )
+
+        spinner1.setAdapter(arrayAdapter)
+        spinner1.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
+                Toast.makeText(applicationContext, sido_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>) {}
+        })
+
+    }
+    //스피너 셋팅2
+    fun setSpinner2() {
+
+        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sigungu_list
+        )
+
+        spinner2.setAdapter(arrayAdapter)
+        spinner2.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
+                Toast.makeText(applicationContext, sigungu_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>) {}
+        })
+
     }
 }
