@@ -1,6 +1,7 @@
 package com.example.kovid
 
 import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        init()
 //        val prop = Properties()
 //        prop.setProperty("page", 1.toString())
 //        prop.setProperty("perpage", 10.toString())
@@ -64,7 +66,21 @@ class MainActivity : AppCompatActivity() {
 //        if (!list.isEmpty()){
 //            list.add(facname_list[0])
 //        }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        // 버튼을 누르면 쓰레드 동작
+        binding.button.setOnClickListener {
+            Log.d("TQ", facname_list.toString())
+//            Log.d("후", list.size.toString())
+            binding.recyclerView.layoutManager = LayoutManager
+            val adapter = RecyclerAdapter(facname_list)
+            binding.recyclerView.adapter = adapter
+        }
+    }
+
+    private fun init() {
         // 쓰레드 생성
         val thread = NetworkThread()
         thread.start()
@@ -72,16 +88,6 @@ class MainActivity : AppCompatActivity() {
         // 스피너 실행
         setSpinner1()
         setSpinner2()
-
-        // 버튼을 누르면 쓰레드 동작
-        binding.button.setOnClickListener {
-            Log.d("TQ", facname_list.toString())
-//            Log.d("후", list.size.toString())
-
-            binding.recyclerView.layoutManager = LayoutManager
-            val adapter = RecyclerAdapter(facname_list)
-            binding.recyclerView.adapter = adapter
-        }
     }
 
     // 네트워크를 이용할 때는 쓰레드를 사용해서 접근해야 함
@@ -162,33 +168,30 @@ class MainActivity : AppCompatActivity() {
     //스피너 셋팅1
     fun setSpinner1() {
 
-        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sido_list
-        )
-
+        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sido_list)
         spinner1.setAdapter(arrayAdapter)
         spinner1.setSelection(arrayAdapter.count)
         spinner1.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
                 Toast.makeText(applicationContext, sido_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+                spinner1.selectedItem.toString()
 
             }
-
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         })
-
     }
     //스피너 셋팅2
     fun setSpinner2() {
 
         var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sigungu_list)
         spinner2.setAdapter(arrayAdapter)
+        spinner2.setSelection(1)
         spinner2.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
                 Toast.makeText(applicationContext, sigungu_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+                spinner2.selectedItem.toString()
             }
-
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         })
-
     }
 }

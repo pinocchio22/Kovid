@@ -1,6 +1,8 @@
 package com.example.kovid
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +56,17 @@ import java.lang.reflect.Member
 class RecyclerAdapter( private val items: ArrayList<String>) :
         RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
+    var datas = mutableListOf<FacnameList>()
+
+
+    interface OnItemClickListener{
+        fun onItemClick(v:View, data: FacnameList, pos : Int)
+    }
+    private var listener : OnItemClickListener? = null
+    fun setOnItemClickListener(listener : OnItemClickListener) {
+        this.listener = listener
+    }
+
     //RecyclerView 초기화때 호출된다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(parent.context)
@@ -63,11 +76,8 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
 
     //생성된 View에 보여줄 데이터를 설정
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //클릭 리스너 설정
-//        val listener = View.OnClickListener {it ->
-//            Toast.makeText(it.context, items[position].name, Toast.LENGTH_SHORT).show()
-//        }
-        //
+//        val listener = View.OnClickListener {it -> }
+        holder.bind(datas[position])
         holder.name.text = items[position]
 
     }
@@ -77,13 +87,26 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
 
 
     //ViewHolder 단위 객체로 View의 데이터를 설정합니다
-    class ViewHolder(private var v: View) : RecyclerView.ViewHolder(v){
+    inner class ViewHolder(private var v: View) : RecyclerView.ViewHolder(v){
 
         val name : TextView = itemView.findViewById(R.id.name)
 
-        fun bind(listener: View.OnClickListener, item: FacnameList){
-            v.setOnClickListener(listener)
+        fun bind( item: FacnameList){
             name.text = item.name
+
+            val pos = adapterPosition
+            if(pos!= RecyclerView.NO_POSITION)
+            {
+                itemView.setOnClickListener {
+                    listener?.onItemClick(itemView,item,pos)
+                }
+            }
+//            itemView.setOnClickListener{
+//                Intent(this, DetailActivity::class.java).apply {
+//                    putExtra("data", item)
+//                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                }.run {context.startActivity(this)}
+//            }
         }
     }
 }

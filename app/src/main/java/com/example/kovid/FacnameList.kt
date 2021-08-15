@@ -6,4 +6,4 @@ package com.example.kovid
  * @created 2021-08-12
  * @desc
  */
-class FacnameList (var name : String)
+class FacnameList (var name : String?)
