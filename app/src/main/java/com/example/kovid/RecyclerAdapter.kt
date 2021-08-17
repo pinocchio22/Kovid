@@ -77,7 +77,7 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
     //생성된 View에 보여줄 데이터를 설정
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        val listener = View.OnClickListener {it -> }
-        holder.bind(datas[position])
+//        holder.bind(datas[position])
         holder.name.text = items[position]
 
     }

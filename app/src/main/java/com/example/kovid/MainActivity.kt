@@ -1,7 +1,6 @@
 package com.example.kovid
 
 import android.R
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,12 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kovid.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
-import java.net.URLEncoder
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,8 +28,9 @@ class MainActivity : AppCompatActivity() {
     var sido_list = arrayListOf<String>()
     var sigungu_list = arrayListOf<String>()
     var total = 0
-
+    var sigungu_item = mutableSetOf<String>()
     val LayoutManager  = LinearLayoutManager(this)
+    var sigungu_spinner = arrayListOf<String>()
 
 //    fun encodeString(params: Properties): String? {
 //        val sb = StringBuffer(256)
@@ -77,6 +76,8 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerView.layoutManager = LayoutManager
             val adapter = RecyclerAdapter(facname_list)
             binding.recyclerView.adapter = adapter
+            Log.d("스피너1", sido_list.toString())
+            Log.d("스피너2", sigungu_spinner.toString())
         }
     }
 
@@ -131,25 +132,35 @@ class MainActivity : AppCompatActivity() {
 
                 // 객체 안에 있는 data 이름의 리스트를 가져옴
                 var data = root.getJSONArray("data")
+                var obj: JSONObject
+                var address : String
+                var facilityName: String
+                var phoneNumber: String
+                var sido = ""
+                var sigungu: String
 //                Log.d("data?", data.toString())
                 // 리스트에 있는 데이터를 totalCount 만큼 가져옴
                 for(i in 0..data.length()-1){
-                    var obj = data.getJSONObject(i)
+                    obj = data.getJSONObject(i)
 
-                    var address: String = obj.getString("address")
-                    var zipCode: String = obj.getString("zipCode")
-                    var facilityName: String = obj.getString("facilityName")
-                    var phoneNumber: String = obj.getString("phoneNumber")
-                    var sido: String = obj.getString("sido")
-                    var sigungu: String = obj.getString("sigungu")
+                    address = obj.getString("address")
+                    facilityName = obj.getString("facilityName")
+                    phoneNumber = obj.getString("phoneNumber")
+                    sido = obj.getString("sido")
+                    sigungu = obj.getString("sigungu")
+
                     adress_list.add(address)
-                    zipcode_list.add(zipCode)
                     facname_list.add(facilityName)
                     number_list.add(phoneNumber)
                     sido_list.add(sido)
                     sigungu_list.add(sigungu)
 
-
+//                    for (i in 0..obj.length()-1) {
+//                        if (sido_list.contains(obj.get("sido"))){
+//                            sigungu_item.add(sido_list[i])
+//                            Log.d("시군구",sigungu_item.toString())
+//                        }
+//                    }
 //                    // 화면에 출력
 //                    runOnUiThread {
 //                        binding.textView.append("이름 : ${facilityName}\n")
@@ -159,9 +170,34 @@ class MainActivity : AppCompatActivity() {
 //                    }
 //                    Log.d("LogObj", adress_list.toString() + zipcode_list)
                 }
+//                Log.d("오브젝트", sido)
+//                Log.d("시도", sido_list.toString())
+
+                for (i in 0..data.length()-1) {
+                    if (sido_list.contains(sido)){
+                        sigungu_item.add(sido_list[i])
+                    }
+                }
+//                Log.d("시군구",sigungu_item.toString())
             }
+            fun <String> convert(sigungu_item : MutableSet<String>) : ArrayList<String> {
+                return ArrayList(sigungu_item)
+            }
+            sigungu_spinner  = convert(sigungu_item)
+//            Log.d("시군구아이템",sigungu_item.toString())
+//            Log.d("리스트",list1.toString())
         }
     }
+
+//    fun sigunguAdd() {
+//
+//        for (i in 0..sigungu_list.size) {
+//            if (sido_list.contains(obj.get("sido"))){
+//                sigungu_item.add(sido_list[i])
+//                Log.d("시군구",sigungu_item.toString())
+//            }
+//        }
+//    }
 
     // Spinner
 
@@ -173,24 +209,26 @@ class MainActivity : AppCompatActivity() {
         spinner1.setSelection(arrayAdapter.count)
         spinner1.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
-                Toast.makeText(applicationContext, sido_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, sido_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
                 spinner1.selectedItem.toString()
 
             }
+
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         })
     }
     //스피너 셋팅2
     fun setSpinner2() {
 
-        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sigungu_list)
+        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sigungu_spinner)
         spinner2.setAdapter(arrayAdapter)
         spinner2.setSelection(1)
         spinner2.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {//스피너가 선택 되었을때
-                Toast.makeText(applicationContext, sigungu_list[i].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, sigungu_spinner.toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
                 spinner2.selectedItem.toString()
             }
+
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         })
     }
