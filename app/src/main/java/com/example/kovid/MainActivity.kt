@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     var sido_list = arrayListOf<String>()
     var sigungu_list = arrayListOf<String>()
     var total = 0
+    var sido_item = arrayListOf<String>()
     var sigungu_item = arrayListOf<String>()
     val LayoutManager  = LinearLayoutManager(this)
 
@@ -70,12 +71,14 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
-            Log.d("TQ", facname_list.toString())
+//            Log.d("TQ", facname_list.toString())
 //            Log.d("후", list.size.toString())
             binding.recyclerView.layoutManager = LayoutManager
             val adapter = RecyclerAdapter(facname_list)
             binding.recyclerView.adapter = adapter
-            Log.d("스피너1", sido_list.toString())
+            sido_sigungu("서울특별시")
+            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
+            Log.d("스피너1", sido_item.toString())
             Log.d("스피너2", sigungu_item.toString())
         }
     }
@@ -170,18 +173,27 @@ class MainActivity : AppCompatActivity() {
 //                    Log.d("LogObj", adress_list.toString() + zipcode_list)
                 }
 //                Log.d("오브젝트", sido)
-                Log.d("시도", sido_list.toString())
+//                Log.d("시도", sido_list.toString())
 
                 for (i in 0..data.length()-1) {
-                    if (!sigungu_item.contains(sido_list[i])){
-                        sigungu_item.add(sido_list[i])
+                    if (!sido_item.contains(sido_list[i])){
+                        sido_item.add(sido_list[i])
                     }
                 }
+
+//                for (i in 0..data.length()-1) {
+//                    if (!sigungu_item.contains(sigungu_list[i])){
+//                        sigungu_item.add(sigungu_list[i])
+//                    }
+//                }
 //                Log.d("시군구",sigungu_item.toString())
+
             }
-            fun <String> convert(sigungu_item : MutableSet<String>) : ArrayList<String> {
-                return ArrayList(sigungu_item)
-            }
+
+
+//            fun <String> convert(sigungu_item : MutableSet<String>) : ArrayList<String> {
+//                return ArrayList(sigungu_item)
+//            }
 //            sigungu_spinner  = convert(sigungu_item)
 //            Log.d("시군구아이템2",sigungu_item.toString())
 //            Log.d("리스트",sido_list.toString())
@@ -198,12 +210,24 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    // Spinner
 
+    fun sido_sigungu(sido : String) {
+        for (i in 0..sido_item.size) {
+            if (sido_item.contains(sido)){
+                sigungu_item.add(sigungu_list[i])
+            }
+        }
+        Log.d("사이즈", sido_item.size.toString())
+        Log.d("시도", sido)
+        Log.d("시도아이템", sido_item.toString())
+        Log.d("시도리스트", sido_list.toString())
+    }
+
+    // Spinner
     //스피너 셋팅1
     fun setSpinner1() {
 
-        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sido_list)
+        var arrayAdapter = ArrayAdapter(applicationContext, R.layout.simple_spinner_dropdown_item, sido_item)
         spinner1.setAdapter(arrayAdapter)
         spinner1.setSelection(arrayAdapter.count)
         spinner1.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
