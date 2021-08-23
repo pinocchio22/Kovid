@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kovid.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_item.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -20,9 +22,9 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-//    var facList = arrayListOf<List_item>()
+    private lateinit var recyclerAdapter : RecyclerAdapter
+    var datas = mutableListOf<FacnameList>()
     var adress_list = arrayListOf<String>()
-    var zipcode_list = arrayListOf<String>()
     var facname_list = arrayListOf<String>()
     var number_list = arrayListOf<String>()
     var sido_list = arrayListOf<String>()
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     var obj = JSONObject()
     lateinit var sido : String
     lateinit var data : JSONArray
+//    lateinit var fac1 : FacnameList
 
 //    fun encodeString(params: Properties): String? {
 //        val sb = StringBuffer(256)
@@ -54,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+//        recyclerAdapter = RecyclerAdapter(this)
+//        binding.recyclerView.adapter = recyclerAdapter
 
         init()
 //        val prop = Properties()
@@ -77,20 +82,33 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("TQ", facname_list.toString())
 //            Log.d("후", list.size.toString())
             binding.recyclerView.layoutManager = LayoutManager
-            val adapter = RecyclerAdapter(facname_list)
-            binding.recyclerView.adapter = adapter
+//            val adapter = RecyclerAdapter(this)
+//            binding.recyclerView.adapter = adapter
+            recyclerAdapter = RecyclerAdapter(this)
+            binding.recyclerView.adapter = recyclerAdapter
 
-            // 아이템 클릭
-            adapter.setOnItemClickListener(object  : RecyclerAdapter.ItemClickListener{
-                override fun onClick(view : View, position : Int) {
-                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                    startActivity(intent)
+            recyclerAdapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener{
+                override fun onItemClick(v: View, data: FacnameList, pos: Int) {
+                    Intent(this@MainActivity,DetailActivity::class.java).apply {
+                        putExtra("data", data)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }.run { startActivity(this) }
                 }
             })
+            // 아이템 클릭
+//            adapter.setOnItemClickListener(object  : RecyclerAdapter.ItemClickListener{
+//                override fun onClick(view : View, position : Int) {
+//                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
+//                    intent.putExtra("data", fac1.name[position])
+//                    startActivity(intent)
+//                }
+//            })
+
             sido_sigungu("서울특별시")
 //            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
             Log.d("스피너1", sido_item.toString())
             Log.d("스피너2", sigungu_item.toString())
+            Log.d("팩네임", datas.toString())
         }
     }
 
@@ -166,6 +184,12 @@ class MainActivity : AppCompatActivity() {
                     number_list.add(phoneNumber)
                     sido_list.add(sido)
                     sigungu_list.add(sigungu)
+                    datas.apply {
+                        add(FacnameList(facilityName, phoneNumber, address))
+                    }
+
+                    recyclerAdapter.datas = datas
+                    recyclerAdapter.notifyDataSetChanged()
 
 //                    for (i in 0..obj.length()-1) {
 //                        if (sido_list.contains(obj.get("sido"))){
