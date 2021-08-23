@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     var sido_item = arrayListOf<String>()
     var sigungu_item = arrayListOf<String>()
     val LayoutManager  = LinearLayoutManager(this)
+    var obj = JSONObject()
+    lateinit var sido : String
+    lateinit var data : JSONArray
 
 //    fun encodeString(params: Properties): String? {
 //        val sb = StringBuffer(256)
@@ -77,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             val adapter = RecyclerAdapter(facname_list)
             binding.recyclerView.adapter = adapter
             sido_sigungu("서울특별시")
-            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
+//            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
             Log.d("스피너1", sido_item.toString())
             Log.d("스피너2", sigungu_item.toString())
         }
@@ -133,12 +136,11 @@ class MainActivity : AppCompatActivity() {
 
 
                 // 객체 안에 있는 data 이름의 리스트를 가져옴
-                var data = root.getJSONArray("data")
+                data = root.getJSONArray("data")
                 var obj: JSONObject
                 var address : String
                 var facilityName: String
                 var phoneNumber: String
-                var sido : String
                 var sigungu: String
 //                Log.d("data?", data.toString())
                 // 리스트에 있는 데이터를 totalCount 만큼 가져옴
@@ -211,9 +213,11 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
-    fun sido_sigungu(sido : String) {
-        for (i in 0..sido_item.size) {
-            if (sido_item.contains(sido)){
+    fun sido_sigungu(sido_ : String) {
+        for (i in 0..data.length()-1) {
+            obj = data.getJSONObject(i)
+            sido = obj.getString("sido")
+            if (sido.equals(sido_)){
                 sigungu_item.add(sigungu_list[i])
             }
         }
