@@ -1,12 +1,12 @@
 package com.example.kovid
 
 import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kovid.databinding.ActivityMainBinding
@@ -79,6 +79,14 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerView.layoutManager = LayoutManager
             val adapter = RecyclerAdapter(facname_list)
             binding.recyclerView.adapter = adapter
+
+            // 아이템 클릭
+            adapter.setOnItemClickListener(object  : RecyclerAdapter.ItemClickListener{
+                override fun onClick(view : View, position : Int) {
+                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                    startActivity(intent)
+                }
+            })
             sido_sigungu("서울특별시")
 //            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
             Log.d("스피너1", sido_item.toString())

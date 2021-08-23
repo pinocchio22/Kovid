@@ -59,12 +59,12 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
     var datas = mutableListOf<FacnameList>()
 
 
-    interface OnItemClickListener{
-        fun onItemClick(v:View, data: FacnameList, pos : Int)
+    interface ItemClickListener{
+        fun onClick(v:View, position : Int)
     }
-    private var listener : OnItemClickListener? = null
-    fun setOnItemClickListener(listener : OnItemClickListener) {
-        this.listener = listener
+    private lateinit var itemClickListener : ItemClickListener
+    fun setOnItemClickListener(itemClickListener : ItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 
     //RecyclerView 초기화때 호출된다.
@@ -78,7 +78,12 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        val listener = View.OnClickListener {it -> }
 //        holder.bind(datas[position])
+        var view = holder
         holder.name.text = items[position]
+
+        holder.itemView.setOnClickListener{
+            itemClickListener.onClick(it, position)
+        }
 
     }
 
@@ -94,13 +99,13 @@ class RecyclerAdapter( private val items: ArrayList<String>) :
         fun bind( item: FacnameList){
             name.text = item.name
 
-            val pos = adapterPosition
-            if(pos!= RecyclerView.NO_POSITION)
-            {
-                itemView.setOnClickListener {
-                    listener?.onItemClick(itemView,item,pos)
-                }
-            }
+//            val pos = adapterPosition
+//            if(pos!= RecyclerView.NO_POSITION)
+//            {
+//                itemView.setOnClickListener {
+//                    listener?.onItemClick(itemView,item,pos)
+//                }
+//            }
 //            itemView.setOnClickListener{
 //                Intent(this, DetailActivity::class.java).apply {
 //                    putExtra("data", item)
