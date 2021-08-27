@@ -1,13 +1,13 @@
 package com.example.kovid
 
 import android.R
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kovid.databinding.ActivityMainBinding
@@ -22,7 +22,7 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerAdapter : RecyclerAdapter
+//    lateinit var recyclerAdapter : RecyclerAdapter
     var datas = mutableListOf<FacnameList>()
     var adress_list = arrayListOf<String>()
     var facname_list = arrayListOf<String>()
@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-//        recyclerAdapter = RecyclerAdapter(this)
-//        binding.recyclerView.adapter = recyclerAdapter
+        var recyclerAdapter = RecyclerAdapter(this)
+        binding.recyclerView.adapter = recyclerAdapter
 
         init()
 //        val prop = Properties()
@@ -84,13 +84,16 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerView.layoutManager = LayoutManager
 //            val adapter = RecyclerAdapter(this)
 //            binding.recyclerView.adapter = adapter
-            recyclerAdapter = RecyclerAdapter(this)
+            var recyclerAdapter = RecyclerAdapter(this)
             binding.recyclerView.adapter = recyclerAdapter
+            recyclerAdapter.datas = datas
+            recyclerAdapter.notifyDataSetChanged()
 
             recyclerAdapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener{
                 override fun onItemClick(v: View, data: FacnameList, pos: Int) {
                     Intent(this@MainActivity,DetailActivity::class.java).apply {
                         putExtra("data", data)
+                        Log.d("데이터1", data.toString())
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }.run { startActivity(this) }
                 }
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            })
 
+            sido_add()
             sido_sigungu("서울특별시")
 //            Log.d("시도시군구", sido_sigungu("서울특별시").toString())
             Log.d("스피너1", sido_item.toString())
@@ -188,8 +192,9 @@ class MainActivity : AppCompatActivity() {
                         add(FacnameList(facilityName, phoneNumber, address))
                     }
 
-                    recyclerAdapter.datas = datas
-                    recyclerAdapter.notifyDataSetChanged()
+//                    var recyclerAdapter = RecyclerAdapter(this@MainActivity)
+//                    recyclerAdapter.datas = datas
+//                    recyclerAdapter.notifyDataSetChanged()
 
 //                    for (i in 0..obj.length()-1) {
 //                        if (sido_list.contains(obj.get("sido"))){
@@ -209,11 +214,11 @@ class MainActivity : AppCompatActivity() {
 //                Log.d("오브젝트", sido)
 //                Log.d("시도", sido_list.toString())
 
-                for (i in 0..data.length()-1) {
-                    if (!sido_item.contains(sido_list[i])){
-                        sido_item.add(sido_list[i])
-                    }
-                }
+//                for (i in 0..data.length()-1) {
+//                    if (!sido_item.contains(sido_list[i])){
+//                        sido_item.add(sido_list[i])
+//                    }
+//                }
 
 //                for (i in 0..data.length()-1) {
 //                    if (!sigungu_item.contains(sigungu_list[i])){
@@ -244,7 +249,13 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-
+    fun sido_add(){
+        for (i in 0..data.length()-1) {
+            if (!sido_item.contains(sido_list[i])){
+                sido_item.add(sido_list[i])
+            }
+        }
+    }
     fun sido_sigungu(sido_ : String) {
         for (i in 0..data.length()-1) {
             obj = data.getJSONObject(i)

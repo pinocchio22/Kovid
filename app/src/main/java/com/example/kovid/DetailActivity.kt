@@ -2,8 +2,10 @@ package com.example.kovid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_detail.*
 
+@Suppress("CAST_NEVER_SUCCEEDS")
 class DetailActivity : AppCompatActivity() {
 
 
@@ -16,6 +18,7 @@ class DetailActivity : AppCompatActivity() {
 //        text1.text = recieve
 
         datas = intent.getSerializableExtra("data") as FacnameList
+        Log.d("데이터2", datas.toString())
 
         text1.text = datas.name
         text2.text = datas.num

@@ -1,17 +1,11 @@
 package com.example.kovid
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kovid.databinding.ListItemBinding
-import org.w3c.dom.Text
-import java.lang.reflect.Member
 
 /**
  * @author CHOI
@@ -124,19 +118,25 @@ import java.lang.reflect.Member
 //            }
 //        }
 
-class RecyclerAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(var context: Context) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     var datas = mutableListOf<FacnameList>()
 
     interface OnItemClickListener{
-        fun onItemClick(v:View, data: FacnameList, pos : Int)
+        fun onItemClick(v: View, data: FacnameList, pos: Int)
     }
     private var listener : OnItemClickListener? = null
-    fun setOnItemClickListener(listener : OnItemClickListener) {
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-    = ViewHolder(View.inflate(context,R.layout.list_item,parent))
+
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+//    = ViewHolder(View.inflate(context,R.layout.list_item,parent))
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.list_item,parent,false)
+        return ViewHolder(view)
+    }
 
     override fun getItemCount(): Int = datas.size
 
@@ -146,7 +146,8 @@ class RecyclerAdapter(private val context: Context) : RecyclerView.Adapter<Recyc
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val txtName: TextView = itemView.findViewById(R.id.name)
+
+        var txtName: TextView = itemView.findViewById(R.id.name)
 
         fun bind(item: FacnameList) {
             txtName.text = item.name
@@ -155,7 +156,7 @@ class RecyclerAdapter(private val context: Context) : RecyclerView.Adapter<Recyc
             if(pos!= RecyclerView.NO_POSITION)
             {
                 itemView.setOnClickListener {
-                    listener?.onItemClick(itemView,item,pos)
+                    listener?.onItemClick(itemView, item, pos)
                 }
             }
 
