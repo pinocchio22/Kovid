@@ -24,6 +24,7 @@ import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
+
 //    lateinit var recyclerAdapter : RecyclerAdapter
     var datas = mutableListOf<FacnameList>()
     var adress_list = arrayListOf<String>()
@@ -68,14 +69,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        init()
-
-        binding.button2.setOnClickListener{
-
-            val thread2 = NetworkThread2()
-            thread2.start()
-            setSpinner1()
-        }
+        val thread1 = NetworkThread1()
+        thread1.start()
+        val thread2 = NetworkThread2()
+        thread2.start()
 
 //        val prop = Properties()
 //        prop.setProperty("page", 1.toString())
@@ -93,6 +90,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        val thread1 = NetworkThread1()
+        thread1.start()
+
+
+        binding.button2.setOnClickListener{
+            val thread2 = NetworkThread2()
+            thread2.start()
+            setSpinner1()
+        }
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
 
@@ -388,9 +395,9 @@ class MainActivity : AppCompatActivity() {
                     add(FacnameList(facilityName, phoneNumber, address))
                 }
             }
-            Log.d("시군구",sigungu_)
-            Log.d("시도", a)
-            Log.d("데이타3", datas.toString())
+//            Log.d("시군구",sigungu_)
+//            Log.d("시도", a)
+//            Log.d("데이타3", datas.toString())
         }
     }
 
@@ -403,7 +410,7 @@ class MainActivity : AppCompatActivity() {
         spinner1.adapter = arrayAdapter
         spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {//스피너가 선택 되었을때
-                Toast.makeText(applicationContext, sido_item[position] + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, sido_item[position] + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
                 sido_sigungu(sido_item[position])
                 setSpinner2()
 //                Log.d("선택1", sido_item[position])
@@ -420,7 +427,7 @@ class MainActivity : AppCompatActivity() {
         spinner2.adapter = arrayAdapter
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {//스피너가 선택 되었을때
-                Toast.makeText(applicationContext, sigungu_item[position].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, sigungu_item[position].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
                 sigungu_rec(a, sigungu_item[position])
 
 //                binding.recyclerView.layoutManager = LayoutManager

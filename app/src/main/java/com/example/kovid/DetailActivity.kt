@@ -34,5 +34,9 @@ class DetailActivity : AppCompatActivity() {
         if (datas != null) {
             text3.text = datas.add
         }
+
+        back.setOnClickListener{
+            finish()
+        }
     }
 }

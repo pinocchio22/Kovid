@@ -6,26 +6,72 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="30dp"
+            android:background="@drawable/back_line">
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:background="@drawable/back_line"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:background="@drawable/back_line"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:background="@drawable/back_line"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:text="맵뷰" />
+
+    <Button
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp" />
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp" />
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp" />
+        android:text="back"
+        android:layout_gravity="center_horizontal"/>
+
 
 </LinearLayout>
