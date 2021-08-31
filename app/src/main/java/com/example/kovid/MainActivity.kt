@@ -70,9 +70,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         val thread1 = NetworkThread1()
-        thread1.start()
         val thread2 = NetworkThread2()
+        thread1.start()
         thread2.start()
+        setSpinner1()
 
 //        val prop = Properties()
 //        prop.setProperty("page", 1.toString())
@@ -91,8 +92,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val thread1 = NetworkThread1()
-        thread1.start()
+        val thread = NetworkThread2()
+        thread.start()
+        setSpinner1()
 
 
         binding.button2.setOnClickListener{

@@ -1,6 +1,7 @@
 package com.example.kovid
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ class DetailActivity : AppCompatActivity() {
 //        lateinit var datas : FacnameList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        var intent : Intent = getIntent()
+        var intent: Intent = getIntent()
         val datas: FacnameList? = intent.getParcelableExtra("data") as FacnameList?
 
 //        val recieve = intent.getStringExtra("data")
@@ -35,8 +36,15 @@ class DetailActivity : AppCompatActivity() {
             text3.text = datas.add
         }
 
-        back.setOnClickListener{
-            finish()
+        text2.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:" + datas?.num)
+            startActivity(intent)
         }
+
+            back.setOnClickListener {
+                finish()
+            }
     }
 }
+
