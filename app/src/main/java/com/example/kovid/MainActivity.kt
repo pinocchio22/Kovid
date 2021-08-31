@@ -36,12 +36,15 @@ class MainActivity : AppCompatActivity() {
     var sigungu_item = arrayListOf<String>()
     val LayoutManager  = LinearLayoutManager(this)
     var obj = JSONObject()
+
     lateinit var address : String
     lateinit var facilityName: String
     lateinit var phoneNumber: String
     lateinit var sido : String
     lateinit var sigungu : String
     lateinit var data : JSONArray
+
+    lateinit var a : String
 //    lateinit var fac1 : FacnameList
 
 //    fun encodeString(params: Properties): String? {
@@ -92,6 +95,21 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // 버튼을 누르면 쓰레드 동작
         binding.button.setOnClickListener {
+
+            binding.recyclerView.layoutManager = LayoutManager
+            var recyclerAdapter = RecyclerAdapter(this)
+            binding.recyclerView.adapter = recyclerAdapter
+            recyclerAdapter.datas = datas
+            recyclerAdapter.notifyDataSetChanged()
+
+            recyclerAdapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener{
+                override fun onItemClick(v: View, data: FacnameList, pos: Int) {
+                    Intent(this@MainActivity,DetailActivity::class.java).apply {
+                        putExtra("data", data)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }.run { startActivity(this) }
+                }
+            })
 //            sido_add()
 //            setSpinner1()
 //            setSpinner2()
@@ -208,7 +226,7 @@ class MainActivity : AppCompatActivity() {
         override fun run() {
             val Key = "9PAc6aMn2DC3xdA7rYZn71Hxr3mT9V5E4qnnakQkwj44zVNrPfV%2FVLVnDsnf30wrZZ%2BD%2FS%2BWRTNinP7J8lMjeQ%3D%3D"
             var Page = 1
-            var PerPage = 50
+            var PerPage = total
             // 접속할 페이지 주소: Site
             val site = "https://api.odcloud.kr/api/15077586/v1/centers"
 
@@ -342,6 +360,7 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("데이터1", obj.toString())
             if (sido == sido_){
                 sigungu_item.add(sigungu)
+                a = sido_
             }
         }
 //    Log.d("데이터2", obj.toString())
@@ -353,24 +372,25 @@ class MainActivity : AppCompatActivity() {
 //        Log.d("시도리스트", sido_list.toString())
     }
 
-    fun sigungu_rec(sido__ : String , sigungu_ : String) {
+    fun sigungu_rec(a : String , sigungu_ : String) {
 
         datas.clear()
         for (i in 0..data.length()-1) {
             obj = data.getJSONObject(i)
             sigungu = obj.getString("sigungu")
+            sido = obj.getString("sido")
+            address = obj.getString("address")
+            facilityName = obj.getString("facilityName")
+            phoneNumber = obj.getString("phoneNumber")
 //            Log.d("오브젝트", obj.getString("sigungu"))
-            if (sido == sido__ && sigungu == sigungu_){
-                address = obj.getString("address")
-                facilityName = obj.getString("facilityName")
-                phoneNumber = obj.getString("phoneNumber")
+            if (sido == a && sigungu == sigungu_){
                 datas.apply {
                     add(FacnameList(facilityName, phoneNumber, address))
                 }
             }
-//            Log.d("시군구",sigungu)
-//            Log.d("데이타2", data.toString())
-//            Log.d("데이타3", datas.toString())
+            Log.d("시군구",sigungu_)
+            Log.d("시도", a)
+            Log.d("데이타3", datas.toString())
         }
     }
 
@@ -401,22 +421,22 @@ class MainActivity : AppCompatActivity() {
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {//스피너가 선택 되었을때
                 Toast.makeText(applicationContext, sigungu_item[position].toString() + "가 선택되었습니다.", Toast.LENGTH_SHORT).show()
-                sigungu_rec(sido_item[position], sigungu_item[position])
-                binding.recyclerView.layoutManager = LayoutManager
-                var recyclerAdapter = RecyclerAdapter(this@MainActivity)
-                binding.recyclerView.adapter = recyclerAdapter
-                recyclerAdapter.datas = datas
-                recyclerAdapter.notifyDataSetChanged()
+                sigungu_rec(a, sigungu_item[position])
 
-                recyclerAdapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener{
-                    override fun onItemClick(v: View, data: FacnameList, pos: Int) {
-                        Intent(this@MainActivity,DetailActivity::class.java).apply {
-                            putExtra("data", data)
-//                        Log.d("데이터1", data.toString())
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }.run { startActivity(this) }
-                    }
-                })
+//                binding.recyclerView.layoutManager = LayoutManager
+//                var recyclerAdapter = RecyclerAdapter(this@MainActivity)
+//                binding.recyclerView.adapter = recyclerAdapter
+//                recyclerAdapter.datas = datas
+//                recyclerAdapter.notifyDataSetChanged()
+//
+//                recyclerAdapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener{
+//                    override fun onItemClick(v: View, data: FacnameList, pos: Int) {
+//                        Intent(this@MainActivity,DetailActivity::class.java).apply {
+//                            putExtra("data", data)
+//                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        }.run { startActivity(this) }
+//                    }
+//                })
 
 //                Log.d("선택2", sigungu_item[position])
             }
