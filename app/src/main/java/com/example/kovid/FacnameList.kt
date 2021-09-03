@@ -12,7 +12,7 @@ import java.io.Serializable
  * @desc
  */
 @Parcelize
-data class FacnameList(var name : String , var num : String, var add : String) : Parcelable {
+data class FacnameList(var name : String , var num : String, var add : String, var lat : String , var lng : String) : Parcelable {
 
 }
 

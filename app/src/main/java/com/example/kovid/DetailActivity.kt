@@ -26,15 +26,10 @@ class DetailActivity : AppCompatActivity() {
 //        (intent.getSerializableExtra("data") as? FacnameList)
         Log.d("데이터2", datas.toString())
 
-        if (datas != null) {
-            text1.text = datas.name
-        }
-        if (datas != null) {
-            text2.text = datas.num
-        }
-        if (datas != null) {
-            text3.text = datas.add
-        }
+
+            text1.text = datas?.name
+            text2.text = datas?.num
+            text3.text = datas?.add
 
         text2.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
