@@ -28,8 +28,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold"
-                android:background="@drawable/back_line"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/allerta"/>
 
             <Button
                 android:id="@+id/text2"
@@ -38,7 +38,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/back_line"
+                android:background="#00ff0000"
+                android:backgroundTint="#00ff0000"
+                android:fontFamily="@font/allerta"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -51,11 +53,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/back_line"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta"/>
         </LinearLayout>
 
     </LinearLayout>
