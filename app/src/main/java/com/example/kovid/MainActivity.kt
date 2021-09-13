@@ -23,9 +23,7 @@ import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
-
-
-//    lateinit var recyclerAdapter : RecyclerAdapter
+    
     var datas = mutableListOf<FacnameList>()
     var sido_list = arrayListOf<String>()
     var sigungu_list = arrayListOf<String>()
